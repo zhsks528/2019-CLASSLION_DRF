@@ -1,7 +1,8 @@
 from rest_framework import viewsets
-from .models import Essay
-from .serializers import EssaySerializer
+from .models import Essay, Album, Files
+from .serializers import EssaySerializer, AlbumSerializer, FilesSerializer
 from rest_framework.filters import SearchFilter
+
 
 class PostViewSet(viewsets.ModelViewSet):
     queryset = Essay.objects.all()
@@ -21,7 +22,17 @@ class PostViewSet(viewsets.ModelViewSet):
         qs = super().get_queryset()
 
         if self.request.user.is_authenticated:
-            qs = qs.filter(author = self.request.user)
-        else : 
+            qs = qs.filter(author=self.request.user)
+        else:
             qs = qs.none()
         return qs
+
+
+class ImgViewSet(viewsets.ModelViewSet):
+    queryset = Album.objects.all()
+    serializer_class = AlbumSerializer
+
+
+class FileViewSet(viewsets.ModelViewSet):
+    queryset = Files.objects.all()
+    serializer_class = FilesSerializer
