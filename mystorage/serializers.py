@@ -2,6 +2,9 @@ from .models import Essay
 from rest_framework import serializers
 
 class EssaySerializer(serializers.ModelSerializer):
-  class Meta:
-    model = Essay
-    fields = '__all__'
+  
+    author_name = serializers.ReadOnlyField(source='author.username')
+  
+    class Meta:
+        model = Essay
+        fields = ('pk', 'title', 'body', 'author_name')
